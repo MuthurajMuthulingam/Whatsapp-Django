@@ -14,6 +14,7 @@ STYLE_CHOICES = sorted((item, item) for item in get_all_styles())
 class Message(models.Model):
     message = models.CharField(max_length= 100)
     time = models.TimeField(auto_now=True)
+    owner = models.ForeignKey('auth.User', related_name='Message', on_delete=models.CASCADE)
     class Meta:
         ordering = ('time',)
 
