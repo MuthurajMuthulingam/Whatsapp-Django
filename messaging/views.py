@@ -2,11 +2,11 @@
 from __future__ import unicode_literals
 
 from rest_framework import permissions
-from django.shortcuts import render
-from  .models import Message, User
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 
-from messaging.serializers import MessageSerializer, UserSerializer
-from messaging.serializers import GroupSerializer
+from django.shortcuts import render
+from  .models import Message, User, Group
+from messaging.serializers import MessageSerializer,UserSerializer, GroupSerializer
 # Django API
 from django.http import Http404
 from rest_framework import generics
@@ -14,6 +14,7 @@ from rest_framework import generics
 # Create your views here.
 class MessageList(generics.ListCreateAPIView):
     # setting permiossions
+    #authentication_classes = (SessionAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
 
     queryset = Message.objects.all()
@@ -36,3 +37,10 @@ class Users(generics.ListAPIView):
 class UserDetails(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+class GroupList(generics.ListCreateAPIView):
+    # permission
+    permission_classes = (permissions.IsAuthenticated,)
+
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer

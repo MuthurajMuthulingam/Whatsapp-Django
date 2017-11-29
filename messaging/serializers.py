@@ -18,3 +18,10 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id','username','name','number','statusMessage','imageURL','messages')
+
+class GroupSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
+    users = serializers.PrimaryKeyRelatedField(many=True,queryset=User.objects.all())
+    class Meta:
+        model = Group
+        fields = ('id','name','imageURL','users','owner')
